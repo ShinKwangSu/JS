@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div.box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+        div.box:nth-child(1) {
+            background-color: yellow;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+        div.box:nth-child(2) {
+            background-color: Red;
+            position: absolute;
+            left: 50px;
+            top: 100px;
+        }
+        div.box:nth-child(3) {
+            background-color: Green;
+            position: absolute;
+            left: 100px;
+            top: 200px;
+        }
+
+        div.targetBox {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: absolute;
+            left: 500px;
+            top: 100px;
+            z-index: -1;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">Box1</div>
+    <div class="box">Box2</div>
+    <div class="box">Box3</div>
+    <div class="targetBox">Target</div>
+
+    <script>
+        var boxList = document.getElementsByClassName('box');
+        var targetBox = document.querySelector('.targetBox');
+
+        for(var i=0; i<boxList.length; i++) {
+            moveBox(boxList[i])
+        }
+        var failCnt = 10;
+        var boxzIdx = 0;
+
+        function moveBox(box) {
+            box.onmousedown = function(event) {
+                var target = event.target;
+                var mouseX = event.clientX;
+                var mouseY = event.clientY;
+                
+                target.style.zIndex = 999;
+
+                var gapX = mouseX - target.offsetLeft;
+                var gapY = mouseY - target.offsetTop;
+                
+                document.onmousemove = function(event) {
+                    target.style.left = event.clientX - gapX + 'px';
+                    target.style.top = event.clientY - gapY +'px';
+                }
+
+                document.onmouseup = function(event) {
+                    target.style.zIndex = boxzIdx++
+
+                    if (document.body.style.backgroundColor == '') {
+                        if ((targetBox.offsetLeft - (event.clientX - gapX))**2 + (targetBox.offsetTop - (event.clientY - gapY))**2 < 15000) {
+                            target.style.top = targetBox.offsetTop + 'px'
+                            target.style.left = targetBox.offsetLeft + 'px' 
+
+                            document.body.style.backgroundColor = window.getComputedStyle(target).getPropertyValue("background-color");
+                        } else {
+                            document.body.style.backgroundColor = null;
+                        }
+                    } else {
+                        if (document.body.style.backgroundColor == window.getComputedStyle(target).getPropertyValue("background-color")) {
+                            if ((targetBox.offsetLeft - (event.clientX - gapX))**2 + (targetBox.offsetTop - (event.clientY - gapY))**2 > 15000) {
+                            document.body.style.backgroundColor = null;
+                            } else {
+                                target.style.top = targetBox.offsetTop + 'px'
+                                target.style.left = targetBox.offsetLeft + 'px'
+                            }
+                        } else {
+                            if (failCnt > 500) {
+                                failCnt = 10
+                                boxzIdx = 0 
+                            }
+                            target.style.top = failCnt + 'px'
+                            target.style.left = failCnt + 'px'
+                            failCnt += 30
+                            
+                            target.style.zIndex = boxzIdx;
+                        }                        
+                    }
+
+                    
+                    document.onmousemove = null;
+                    document.onmouseup = null;
+                };
+            }
+        }
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        /* 
+        세탁기 클래스 만들기
+        속성 : 이름, 용량, 메이커
+        기능 : 불리기, 세제투입, 탈수, 세탁
+
+        세탁기를 상속 받아서 세차기를 만들기
+        */
+
+        function WashMachine(name, vol, brand) {
+            this.name = name;
+            this.vol = vol;
+            this.brand = brand;
+        }
+        WashMachine.prototype.soak = function() {
+            document.write(`${this.brand} ${this.name} 세탁기가 ${this.vol} 용량의 세탁물을 불리고 있습니다.<br>`)
+        }
+        WashMachine.prototype.detergent = function() {
+            document.write(`${this.brand} ${this.name} 세탁기가 ${this.vol} 용량의 세탁물에 세제를 투입하고 있습니다.<br>`)
+        }
+        WashMachine.prototype.wash = function() {
+            document.write(`${this.brand} ${this.name} 세탁기가 ${this.vol} 용량의 세탁물을 세탁하고 있습니다.<br>`)
+        }
+        WashMachine.prototype.dehydrate = function() {
+            document.write(`${this.brand} ${this.name} 세탁기가 ${this.vol} 용량의 세탁물을 탈수 중 입니다.<br><br>`)
+        }
+        
+
+        let wash = new WashMachine('트롬', '3Kg', 'LG')
+        wash.soak()
+        wash.detergent()
+        wash.wash()
+        wash.dehydrate()
+
+
+        // 세탁기를 상속 받은 세차기
+
+        function CarWasher() {
+            this.name = arguments[0]
+            this.vol = arguments[1]
+            this.brand = arguments[2]
+        }
+
+        CarWasher.prototype = new WashMachine()
+        CarWasher.constructor = CarWasher
+        
+        CarWasher.prototype.powerfulDetergent = function() {
+            document.write(`${this.name} ${this.brand}가 ${this.vol} 용량의 강력세제를 투입했습니다.<br>`)
+        }
+        CarWasher.prototype.underWash = function() {
+            document.write(`${this.name} ${this.brand}가 ${this.vol} 용량의 세제로 하부 세차를 하고 있습니다.<br>`)
+        }
+        
+
+
+        let car = new CarWasher('S-OIL', '5L', '자동 세차기')
+        car.underWash()
+        car.powerfulDetergent()
+
+    </script>
+</body>
+</html>

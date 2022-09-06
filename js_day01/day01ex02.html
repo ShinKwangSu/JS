@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div.box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            background-color: yellow;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            transition: .5s ease;
+            /* transform: rotateX('25deg'); */
+        }
+    </style>
+</head>
+<body>
+    <button class="btn">Click</button>
+    <div class="box">Box</div>
+
+    <script>
+        const box = document.querySelector('.box');
+        const btn = document.querySelector('.btn');
+
+        btn.addEventListener('click', () => {
+            if (box.style.left === '500px') {
+                box.style.left = '0';
+                box.style.transform = 'rotate(0deg)'
+                box
+            } else {
+                box.style.left = '500px'
+                box.style.transform = 'rotate(360deg)'
+            }
+            
+        });
+    </script>
+</body>
+</html>
