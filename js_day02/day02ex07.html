@@ -48,6 +48,7 @@
     <div class="box">Box2</div>
     <div class="box">Box3</div>
     <div class="targetBox">Target</div>
+    
 
     <script>
         var boxList = document.getElementsByClassName('box');
@@ -57,7 +58,7 @@
             moveBox(boxList[i])
         }
         var failCnt = 10;
-        var boxzIdx = 0;
+        var boxzIdx = 1;
 
         function moveBox(box) {
             box.onmousedown = function(event) {
@@ -98,7 +99,7 @@
                         } else {
                             if (failCnt > 500) {
                                 failCnt = 10
-                                boxzIdx = 0 
+                                boxzIdx = 1
                             }
                             target.style.top = failCnt + 'px'
                             target.style.left = failCnt + 'px'
